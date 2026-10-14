@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EarnHub - Survey Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            line-height: 1.5;
+            padding-bottom: 2rem;
+        }
+
+        /* Top Bar Navigation */
+        header {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .balance-badge {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .balance-amount {
+            color: #4ade80;
+            font-weight: 700;
+        }
+
+        /* Container */
+        .app-container {
+            max-width: 800px;
+            margin: 1rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Survey Items */
+        .survey-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .survey-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            background-color: #f8fafc;
+        }
+
+        .survey-info h4 {
+            font-size: 0.95rem;
+            color: #0f172a;
+        }
+
+        .survey-meta {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .survey-reward {
+            font-weight: 700;
+            color: #16a34a;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .btn-take {
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-take:active {
+            background-color: #1d4ed8;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #334155;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.65rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #2563eb;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #16a34a;
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-submit:active {
+            background-color: #15803d;
+        }
+
+        /* Embed Window */
+        .embed-window {
+            width: 100%;
+            height: 450px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #f8fafc;
+        }
+
+        /* Status Toast */
+        #statusMessage {
+            display: none;
+            padding: 0.75rem;
+            background-color: #dcfce7;
+            color: #15803d;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="brand">EarnHub</div>
+        <div class="balance-badge">
+            Balance: <span class="balance-amount" id="userBalance">$12.50</span>
+        </div>
+    </header>
+
+    <!-- Main Mobile Dashboard -->
+    <div class="app-container">
+
+        <!-- Available Surveys -->
+        <div class="card">
+            <div class="card-title">
+                <span>Available Surveys</span>
+                <span style="font-size: 0.75rem; color: #64748b;">3 Ready</span>
+            </div>
+            
+            <div class="survey-list">
+                
+                <div class="survey-item">
+                    <div class="survey-info">
+                        <h4>Consumer Habits Study</h4>
+                        <div class="survey-meta">⏱ 10 Mins • Quick Completion</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="survey-reward">+$1.50</div>
+                        <button class="btn-take" onclick="startSurvey('Consumer Habits Study', 1.50)">Start</button>
+                    </div>
+                </div>
+
+                <div class="survey-item">
+                    <div class="survey-info">
+                        <h4>Tech & Mobile Devices</h4>
+                        <div class="survey-meta">⏱ 15 Mins • High Match</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="survey-reward">+$2.20</div>
+                        <button class="btn-take" onclick="startSurvey('Tech & Mobile Devices', 2.20)">Start</button>
+                    </div>
+                </div>
+
+                <div class="survey-item">
+                    <div class="survey-info">
+                        <h4>Shopping Experience</h4>
+                        <div class="survey-meta">⏱ 5 Mins • Instant Payout</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="survey-reward">+$0.75</div>
+                        <button class="btn-take" onclick="startSurvey('Shopping Experience', 0.75)">Start</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Embedded Survey Router (CPX / BitLabs Frame) -->
+        <div class="card">
+            <div class="card-title">Dynamic Survey Router</div>
+            <iframe 
+                class="embed-window"
+                src="https://publisher.cpx-research.com/" 
+                frameborder="0">
+            </iframe>
+        </div>
+
+        <!-- Payout Request Form -->
+        <div class="card">
+            <div class="card-title">Withdraw Funds</div>
+            <form id="payoutForm" onsubmit="processWithdrawal(event)">
+                
+                <div class="form-group">
+                    <label for="method">Select Payment Method</label>
+                    <select id="method" class="form-control" required>
+                        <option value="Mobile Money (M-Pesa)">Mobile Money / M-Pesa</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Crypto (USDT)">Crypto (USDT)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="account">Account Details (Phone / Email / Address)</label>
+                    <input type="text" id="account" class="form-control" placeholder="e.g. +254712345678" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Amount ($)</label>
+                    <input type="number" id="amount" class="form-control" min="1" max="12.50" step="0.10" value="5.00" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Request Payout</button>
+                
+                <div id="statusMessage"></div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Interactive Script -->
+    <script>
+        let currentBalance = 12.50;
+
+        function startSurvey(title, reward) {
+            alert(`Opening survey: "${title}"\nReward: $${reward.toFixed(2)}\n\n(In production, this redirects to the survey API provider link).`);
+        }
+
+        function processWithdrawal(event) {
+            event.preventDefault();
+            
+            const method = document.getElementById('method').value;
+            const account = document.getElementById('account').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            if (amount > currentBalance) {
+                alert("Insufficient balance!");
+                return;
+            }
+
+            // Deduct balance locally for test display
+            currentBalance -= amount;
+            document.getElementById('userBalance').innerText = `$${currentBalance.toFixed(2)}`;
+
+            const status = document.getElementById('statusMessage');
+            status.style.display = "block";
+            status.innerText = `Success! Withdrawal request of $${amount.toFixed(2)} via ${method} sent for account ${account}.`;
+
+            // Reset form
+            document.getElementById('payoutForm').reset();
+        }
+    </script>
+</body>
+  </html>
+  
